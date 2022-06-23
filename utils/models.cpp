@@ -19,13 +19,14 @@ public:
     std::string name;
 } Branch;
 
-typedef struct Account {
+class Account {
+public:
     int account_id;
     std::string full_names;
     std::string account_number;
     std::string username;
     std::string account_pin;
-} Account;
+};
 
 typedef struct Transaction {
     int transaction_id;
