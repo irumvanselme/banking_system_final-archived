@@ -12,7 +12,6 @@ enum ETransactionType {
     WITHDRAW, DEPOSE
 };
 
-
 // Models
 typedef struct Branch {
 public:
