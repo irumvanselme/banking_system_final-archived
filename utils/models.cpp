@@ -13,11 +13,11 @@ enum ETransactionType {
 };
 
 // Models
-typedef struct Branch {
+class Branch {
 public:
     int branch_id;
     std::string name;
-} Branch;
+};
 
 class Account {
 public:
@@ -28,10 +28,11 @@ public:
     std::string account_pin;
 };
 
-typedef struct Transaction {
+class Transaction {
+public:
     int transaction_id;
     int account_id;
     int branch_id;
     double amount;
     ETransactionType transactionType;
-} Transaction;
+};

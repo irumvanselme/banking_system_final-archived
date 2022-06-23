@@ -14,7 +14,8 @@ public:
 
         outputStream.open(get_data_store_path(), ios::out | ios::app);
 
-        outputStream << next_id() << ", " << account.full_names << ", " << account.account_number << ", "  << account.account_pin << ", " << account.username << "\n";
+        outputStream << next_id() << ", " << account.full_names << ", " << account.account_number << ", "
+                     << account.account_pin << ", " << account.username << "\n";
     }
 
     vector<Account> read() {
@@ -54,6 +55,36 @@ public:
         }
 
         return account;
+    }
+
+    void delete_by_id(int id) {
+
+        Account existingAccount = find_by_id(id);
+        if (existingAccount.account_id == -1) {
+            cout << "User not available in the system";
+        }
+
+        vector<Account> previousAccounts = read();
+
+        fstream outputStream;
+
+        outputStream.open(get_temp_data_store_path(), ios::out | ios::app);
+
+        int _id = 1;
+        for (const Account &account: previousAccounts) {
+            if (account.account_id != id) {
+                outputStream << _id << ", " << account.full_names << ", " << account.account_number
+                             << ", " << account.account_pin << ", " << account.username << "\n";
+
+                _id++;
+            }
+
+        }
+
+        remove(get_data_store_path().c_str());
+        rename(get_temp_data_store_path().c_str(), get_data_store_path().c_str());
+
+        outputStream.close();
     }
 
 private:
