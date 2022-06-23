@@ -9,44 +9,54 @@ class AccountService : Service {
 public:
     explicit AccountService() : Service("accounts") {}
 
-    void store() override {
+    void store(const Account &account) {
         fstream outputStream;
 
         outputStream.open(get_data_store_path(), ios::out | ios::app);
 
-        int i, roll, phy, chem, math, bio;
-        string name;
-        cin >> roll >> name >> math >> phy >> chem >> bio;
-
-        cout << "Enter the data of student :" << endl;
-
-        outputStream << roll << ", " << name << ", " << math << ", " << phy << ", " << chem << ", " << bio << "\n";
+        outputStream << account.account_id << ", " << account.full_names << ", " << account.account_number << ", "
+                     << account.account_pin << ", " << account.username << "\n";
     }
 
-    void read() override {
+    vector<Account> read() {
+        vector<Account> accounts;
+
         fstream fin;
         fin.open(get_data_store_path(), ios::in);
 
         string line;
 
-        int sum = 0;
-
         while (getline(fin, line)) {
-
             std::stringstream ss(line);
-            vector<int> vect;
-
-            for (int i; ss >> i;) {
-                vect.push_back(i);
-                sum += i;
+            Account account;
+            int k = 0;
+            for (string rowElement; ss >> rowElement;) {
+                switch (k) {
+                    case 0:
+                        account.account_id = stoi(rowElement);
+                        break;
+                    case 1:
+                        account.full_names = rowElement;
+                        break;
+                    case 2:
+                        account.account_number = rowElement;
+                        break;
+                    case 3:
+                        account.account_pin = rowElement;
+                        break;
+                    case 4:
+                        account.username = rowElement;
+                        break;
+                    default:
+                        break;
+                }
+                k++;
                 if (ss.peek() == ',')
                     ss.ignore();
             }
-
-            for (int i: vect)
-                std::cout << i << std::endl;
+            accounts.push_back(account);
         }
 
-        cout << "The sum is " << sum << endl;
+        return accounts;
     }
 };

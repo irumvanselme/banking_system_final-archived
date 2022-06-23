@@ -11,8 +11,4 @@ protected:
 
 public:
     explicit Service(std::string filename) : filename(std::move(filename)) {}
-
-    virtual void store() = 0;
-
-    virtual void read() = 0;
 };

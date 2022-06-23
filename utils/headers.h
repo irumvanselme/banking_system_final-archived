@@ -8,6 +8,8 @@
 #include "string"
 #include "sstream"
 
+#include "models.cpp"
+
 #pragma once
 
 using namespace std;
